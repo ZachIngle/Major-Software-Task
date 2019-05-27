@@ -50,3 +50,15 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+var Datastore = require('nedb')
+  , db = new Datastore({ filename: 'testdb.txt', autoload: true });
+
+var Zach = {
+  name: 'Zachariah',
+  lastname: 'Ingle'
+};
+
+db.insert(Zach, function(err, doc) {
+  console.log('Inserted', doc.name, 'with ID', doc._id);
+});
