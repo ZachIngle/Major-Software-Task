@@ -8,12 +8,15 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
   })
+  // Removes menubar
+  // mainWindow.setMenuBarVisibility(false)
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -51,6 +54,7 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+/*
 var Datastore = require('nedb')
   , db = new Datastore({ filename: 'testdb.txt', autoload: true });
 
@@ -62,3 +66,4 @@ var Zach = {
 db.insert(Zach, function(err, doc) {
   console.log('Inserted', doc.name, 'with ID', doc._id);
 });
+*/
