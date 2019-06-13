@@ -34,6 +34,7 @@
       db.find({ }, function (err, docs) {
         x = docs;
         CreateTableFromJSON(x); // Due to asynchronous callbacks and returns I have to call function here
+        window.onload = sortAlphaTable(0);
       });
 
     function CreateTableFromJSON(data) {
@@ -62,10 +63,11 @@
           var th = document.createElement("th");      // TABLE HEADER.
           th.innerHTML = col[i];
           tr.appendChild(th);
+          th.setAttribute("class", "sticky-top bg-primary border-0")
           if (i == 0) {
-            th.setAttribute('onclick', `sortAlphaTable(${i})`);
+            th.setAttribute("onclick", `sortAlphaTable(${i})`);
           } else {
-            th.setAttribute('onclick', `sortNumTable(${i})`);
+            th.setAttribute("onclick", `sortNumTable(${i})`);
           }
       }
 
@@ -161,16 +163,19 @@
         one from current row and one from the next: */
         x = rows[i].getElementsByTagName("TD")[n];
         y = rows[i + 1].getElementsByTagName("TD")[n];
+        //Replace any non-numeric characters with an empty space
+        xNum = x.innerHTML.replace(/[^\d.-]/g, "");
+        yNum = y.innerHTML.replace(/[^\d.-]/g, "");
         /* Check if the two rows should switch place,
         based on the direction, asc or desc: */
         if (dir == "asc") {
-          if (Number(x.innerHTML) > Number(y.innerHTML)) {
+          if (Number(xNum) > Number(yNum)) {
             // If so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
           }
         } else if (dir == "desc") {
-          if (Number(x.innerHTML) < Number(y.innerHTML)) {
+          if (Number(xNum) < Number(yNum)) {
             // If so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
@@ -195,5 +200,6 @@
     }
   }
 
-</script>
+
+  </script>
 </html>
