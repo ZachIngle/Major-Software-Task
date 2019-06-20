@@ -35,16 +35,17 @@
       , db = new Datastore({ filename: 'ChampionStats.txt', autoload: true });
 
     var x = null;
-      db.find({ }, function (err, docs) {
+      // Gather all data from database
+      db.find({}, function (err, docs) {
         x = docs;
-        CreateTableFromJSON(x); // Due to asynchronous callbacks and returns I have to call function here
-        window.onload = sortAlphaTable(0);
+        // Due to asynchronous returns I have to call function here
+        CreateTableFromJSON(x);
+        window.onload = sortTable(0, "alpha");
       });
 
     function CreateTableFromJSON(data) {
         var myData = data
-
-        // EXTRACT VALUE FOR HTML HEADER.
+        // Extract value for html header
         var col = [];
         for (var i = 0; i < myData.length; i++) {
             for (var key in myData[i]) {
@@ -53,9 +54,10 @@
                 }
             }
         }
+        // Remove last column
         col.splice(-1, 1)
 
-      // CREATE DYNAMIC TABLE.
+      // Create the dynamic table
       var table = document.createElement("table");
       table.setAttribute("id", "statsTable");
       table.setAttribute("class", "table table-sm")
@@ -67,11 +69,11 @@
           var th = document.createElement("th");      // TABLE HEADER.
           th.innerHTML = col[i];
           tr.appendChild(th);
-          th.setAttribute("class", "sticky-top bg-primary border-0 align-middle text-center")
+          th.setAttribute("class", "sticky-top bg-primary border-0 align-middle text-center");
           if (i == 0) {
-            th.setAttribute("onclick", `sortAlphaTable(${i})`);
+            th.setAttribute("onclick", `sortTable(${i}, "alpha")`);
           } else {
-            th.setAttribute("onclick", `sortNumTable(${i})`);
+            th.setAttribute("onclick", `sortTable(${i}, "num")`);
           }
           var div = document.createElement("div");
           th.appendChild(div);
@@ -81,8 +83,10 @@
           div.appendChild(spanUp);
           div.appendChild(spanDown);
           spanUp.setAttribute("class", "oi oi-caret-top d-block");
+          spanUp.setAttribute("id", "up");
           spanUp.setAttribute("aria-hidden", "true");
           spanDown.setAttribute("class", "oi oi-caret-bottom d-block");
+          spanDown.setAttribute("id", "down");
           spanDown.setAttribute("aria-hidden", "true");
 
       }
@@ -104,66 +108,19 @@
       divContainer.appendChild(table);
   }
 
-  function sortAlphaTable(n) {
+  //Code based on W3Schools
+  function sortTable(n, type) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("statsTable");
     switching = true;
+    type = type;
     // Set the sorting direction to ascending:
     dir = "asc";
-    /* Make a loop that will continue until
-    no switching has been done: */
-    while (switching) {
-      // Start by saying: no switching is done:
-      switching = false;
-      rows = table.rows;
-      /* Loop through all table rows (except the
-      first, which contains table headers): */
-      for (i = 1; i < (rows.length - 1); i++) {
-        // Start by saying there should be no switching:
-        shouldSwitch = false;
-        /* Get the two elements you want to compare,
-        one from current row and one from the next: */
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        /* Check if the two rows should switch place,
-        based on the direction, asc or desc: */
-        if (dir == "asc") {
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
-          }
-        } else if (dir == "desc") {
-          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
-          }
-        }
-      }
-      if (shouldSwitch) {
-        /* If a switch has been marked, make the switch
-        and mark that a switch has been done: */
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        // Each time a switch is done, increase this count by 1:
-        switchcount ++;
-      } else {
-        /* If no switching has been done AND the direction is "asc",
-        set the direction to "desc" and run the while loop again. */
-        if (switchcount == 0 && dir == "asc") {
-          dir = "desc";
-          switching = true;
-        }
-      }
+    document.getElementById("up").className = "oi oi-caret-top d-block invisible";
+    document.getElementById("down").className = "oi oi-caret-bottom d-block visible";
+    if (dir == "desc") {
+
     }
-  }
-  function sortNumTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("statsTable");
-    switching = true;
-    // Set the sorting direction to ascending:
-    dir = "asc";
     /* Make a loop that will continue until
     no switching has been done: */
     while (switching) {
@@ -179,22 +136,37 @@
         one from current row and one from the next: */
         x = rows[i].getElementsByTagName("TD")[n];
         y = rows[i + 1].getElementsByTagName("TD")[n];
-        //Replace any non-numeric characters with an empty space
-        xNum = x.innerHTML.replace(/[^\d.-]/g, "");
-        yNum = y.innerHTML.replace(/[^\d.-]/g, "");
         /* Check if the two rows should switch place,
         based on the direction, asc or desc: */
-        if (dir == "asc") {
-          if (Number(xNum) > Number(yNum)) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
+        if (type == "alpha") {
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
           }
-        } else if (dir == "desc") {
-          if (Number(xNum) < Number(yNum)) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
+        }
+
+        if (type == "num") {
+          //Stripe elements before sorting
+          xNum = x.innerHTML.replace(/[^\d.-]/g, "");
+          yNum = y.innerHTML.replace(/[^\d.-]/g, "");
+          if (dir == "asc") {
+            if (Number(xNum) > Number(yNum)) {
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (Number(xNum) < Number(yNum)) {
+              shouldSwitch = true;
+              break;
+            }
           }
         }
       }
@@ -203,13 +175,14 @@
         and mark that a switch has been done: */
         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
         switching = true;
-        // Each time a switch is done, increase this count by 1:
         switchcount ++;
       } else {
         /* If no switching has been done AND the direction is "asc",
         set the direction to "desc" and run the while loop again. */
         if (switchcount == 0 && dir == "asc") {
           dir = "desc";
+          document.getElementById("up").className = "oi oi-caret-top d-block visible";
+          document.getElementById("down").className = "oi oi-caret-bottom d-block invisible";
           switching = true;
         }
       }
