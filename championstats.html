@@ -9,7 +9,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <link href="./open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
-
+    <style>
+      .pointer {cursor: pointer;}
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm bg-primary navbar-light">
@@ -69,7 +71,10 @@
           var th = document.createElement("th");      // TABLE HEADER.
           th.innerHTML = col[i];
           tr.appendChild(th);
-          th.setAttribute("class", "sticky-top bg-primary border-0 align-middle text-center");
+          th.setAttribute("class", "sticky-top bg-primary border-0 align-middle text-center pointer");
+          th.setAttribute("data-toggle", "tooltip");
+          th.setAttribute("data-placement", "bottom");
+          th.setAttribute("title", "Test");
           if (i == 0) {
             th.setAttribute("onclick", `sortTable(${i}, "alpha")`);
           } else {
@@ -83,10 +88,10 @@
           div.appendChild(spanUp);
           div.appendChild(spanDown);
           spanUp.setAttribute("class", "oi oi-caret-top d-block");
-          spanUp.setAttribute("id", "up");
+          spanUp.setAttribute("id", `up${i}`);
           spanUp.setAttribute("aria-hidden", "true");
           spanDown.setAttribute("class", "oi oi-caret-bottom d-block");
-          spanDown.setAttribute("id", "down");
+          spanDown.setAttribute("id", `down${i}`);
           spanDown.setAttribute("aria-hidden", "true");
 
       }
@@ -116,8 +121,13 @@
     type = type;
     // Set the sorting direction to ascending:
     dir = "asc";
-    document.getElementById("up").className = "oi oi-caret-top d-block invisible";
-    document.getElementById("down").className = "oi oi-caret-bottom d-block visible";
+    // Ensure both carets are visible in other header rows
+    for (i = 0; i < 19; i++){
+      document.getElementById(`up${i}`).className = "oi oi-caret-top d-block visible";
+      document.getElementById(`down${i}`).className = "oi oi-caret-bottom d-block visible";
+    }
+    document.getElementById(`up${n}`).className = "oi oi-caret-top d-block invisible";
+    document.getElementById(`down${n}`).className = "oi oi-caret-bottom d-block visible";
     if (dir == "desc") {
 
     }
@@ -181,14 +191,13 @@
         set the direction to "desc" and run the while loop again. */
         if (switchcount == 0 && dir == "asc") {
           dir = "desc";
-          document.getElementById("up").className = "oi oi-caret-top d-block visible";
-          document.getElementById("down").className = "oi oi-caret-bottom d-block invisible";
+          document.getElementById(`up${n}`).className = "oi oi-caret-top d-block visible";
+          document.getElementById(`down${n}`).className = "oi oi-caret-bottom d-block invisible";
           switching = true;
         }
       }
     }
   }
-
 
   </script>
 </html>
