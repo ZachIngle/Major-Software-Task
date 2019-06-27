@@ -1,38 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Project Name</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-LS4/wo5Z/8SLpOLHs0IbuPAGOWTx30XSoZJ8o7WKH0UJhRpjXXTpODOjfVnNjeHu" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link href="./open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-expand-sm bg-primary navbar-light">
       <a class="navbar-brand">ProjectName</a>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="index.html" class="btn btn-secondary active" role="button">Home</a>
+          <a href="index.html" class="btn btn-secondary" role="button">Home</a>
         </li>
         <li class="nav-item">
           <a href="championstats.html" class="btn btn-secondary" role="button">Champion Stats</a>
         </li>
         <li>
-          <a href="championcomparison.html" class="btn btn-secondary" role="button">Champion Comparison</a>
+          <a href="championcomparison.html" class="btn btn-secondary active" role="button">Champion Comparison</a>
         </li>
       </ul>
     </nav>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-    <p>This is a paragraph</p>
+    <p>This is the champion comparison page</p>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
     </script>
   </body>
+  <script>
+    var Datastore = require('nedb')
+      , db = new Datastore({ filename: 'ChampionStats.txt', autoload: true });
+
+    var x = null;
+      // Gather all data from database
+      db.find({}, function (err, docs) {
+        x = docs;
+        // Due to asynchronous returns I have to call function here
+        // CreateTableFromJSON(x);
+      });
+  </script>
 </html>
