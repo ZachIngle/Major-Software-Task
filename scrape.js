@@ -16,7 +16,6 @@ rp('https://leagueoflegends.fandom.com/wiki/List_of_champions/Base_statistics')
     var $ = cheerio.load(htmlString); // Load html into a cheerio object
     var championList = [];
     $('table tbody tr').map(function(i, element){ // Look in $ for table rows(tr)
-      // .map makes each element found a new cheerio object
       var a = $(this); // Assign the found element
       var td = a.children(); // Get all the children elements of a
       var champions = td.children().eq(0).text();
