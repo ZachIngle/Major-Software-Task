@@ -2,17 +2,23 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Project Name</title>
+    <title>LoLBS</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-LS4/wo5Z/8SLpOLHs0IbuPAGOWTx30XSoZJ8o7WKH0UJhRpjXXTpODOjfVnNjeHu" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" onload="window.$ = window.jQuery = module.exports;" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <link href="./open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <style>
+    .img-div {
+      width:  264px;
+      height: 480px;
+    }
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm bg-primary navbar-light">
-      <a class="navbar-brand">ProjectName</a>
+      <a class="navbar-brand">LoLBS</a>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a href="index.html" class="btn btn-secondary" role="button">Home</a>
@@ -25,22 +31,206 @@
         </li>
       </ul>
     </nav>
-    <p>This is the champion comparison page</p>
+    <div class="container mt-2">
+      <div class="row">
+        <div class="col-sm">
+          <select class="custom-select" id="select1">
+            <option selected>Please select a champion to compare</option>
+          </select>
+          <div class="col-sm mt-2">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="img-fluid img-div float-left"id="left">
+          </div>
+        </div>
+        <div class="col-sm">
+          <p class="text-center">Difference from left champion to right champion</p>
+          <div class="row mt-4">
+            <div class="col-sm" id="leftDiv">
+              <p class="mb-1">HP:</p>
+              <p class="mb-1">HP+:</p>
+              <p class="mb-1">HP5:</p>
+              <p class="mb-1">HP5+:</p>
+              <p class="mb-1">MP:</p>
+              <p class="mb-1">MP+:</p>
+              <p class="mb-1">MP5:</p>
+              <p class="mb-1">MP5+:</p>
+              <p class="mb-1">AD:</p>
+              <p class="mb-1">AD+:</p>
+              <p class="mb-1">AS:</p>
+              <p class="mb-1">AS+:</p>
+              <p class="mb-1">AR:</p>
+              <p class="mb-1">AR+:</p>
+              <p class="mb-1">MR:</p>
+              <p class="mb-1">MR+:</p>
+              <p class="mb-1">MS:</p>
+              <p class="mb-1">Range:</p>
+            </div>
+            <div class="col-sm" id="midDiv"></div>
+            <div class="col-sm" id="rightDiv">
+              <p class="mb-1">HP:</p>
+              <p class="mb-1">HP+:</p>
+              <p class="mb-1">HP5:</p>
+              <p class="mb-1">HP5+:</p>
+              <p class="mb-1">MP:</p>
+              <p class="mb-1">MP+:</p>
+              <p class="mb-1">MP5:</p>
+              <p class="mb-1">MP5+:</p>
+              <p class="mb-1">AD:</p>
+              <p class="mb-1">AD+:</p>
+              <p class="mb-1">AS:</p>
+              <p class="mb-1">AS+:</p>
+              <p class="mb-1">AR:</p>
+              <p class="mb-1">AR+:</p>
+              <p class="mb-1">MR:</p>
+              <p class="mb-1">MR+:</p>
+              <p class="mb-1">MS:</p>
+              <p class="mb-1">Range:</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <select class="custom-select" id="select2">
+            <option selected>Please select a champion to compare</option>
+          </select>
+          <div class="col-sm mt-2">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="img-fluid img-div  float-right"id="right">
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
-      // You can also require other files to run in this process
       require('./renderer.js')
     </script>
   </body>
   <script>
+
     var Datastore = require('nedb')
       , db = new Datastore({ filename: 'ChampionStats.txt', autoload: true });
 
-    var x = null;
       // Gather all data from database
       db.find({}, function (err, docs) {
-        x = docs;
-        // Due to asynchronous returns I have to call function here
-        // CreateTableFromJSON(x);
+        // Grab a list of all the champion names
+        listChampion = []
+        for (i=0; i < docs.length; i++) {
+          c = docs[i].Champion
+          listChampion.push(c)
+        }
+        // Due to asynchronous returns I have to call functions here
+        // Ensure array is sorted before being passed to create select menu
+        listChampion.sort()
+        CreateSelectMenu('select1', listChampion)
+        CreateSelectMenu('select2', listChampion)
       });
+
+    function CreateSelectMenu(element, list) {
+      var myList = list
+      var eID = element
+      var select = document.getElementById(eID);
+      // Take each item in array and assign a new value and option to it
+      for(index in myList) {
+        select.options[select.options.length] = new Option(myList[index], myList[index]);
+      }
+    }
+
+    function modifyArray(data) {
+      var myData = data
+      var res = myData.map(function(v) {
+        x = v.replace(/[^\d.-]/g, "");
+        return parseFloat(x, 10);
+      });
+      return res
+    }
+
+    function round(value, precision) {
+        var multiplier = Math.pow(10, precision || 0);
+        return Math.round(value * multiplier) / multiplier;
+    }
+
+    function WriteChampionInfo(data, sideId){
+      var myData = data
+      var listDiv = document.getElementById(sideId)
+      // Delete the previous elements inside the div
+      while (listDiv.firstChild) {
+        listDiv.removeChild(listDiv.firstChild);
+      }
+      var keys = Object.keys(data);
+      var vals = Object.values(data);
+      // Take the keys and vals and put them into a <p> element
+      for (var i = 1; i < 19; i++) {
+        var para = document.createElement('p')
+        para.innerHTML = `${keys[i]}: ${vals[i]}`
+        para.setAttribute('class', 'mb-1')
+        listDiv.appendChild(para)
+      }
+    }
+
+    function CalculateDifference() {
+      var left = document.getElementById("select1")
+      var right = document.getElementById("select2")
+      var strLeft = left.options[left.selectedIndex].value
+      var strRight = right.options[right.selectedIndex].value
+      if (strLeft == "Please select a champion to compare" || strRight == "Please select a champion to compare") {
+        alert("Please select a champ to compare")
+      } else {
+        db.find({ "Champion": strLeft }, function (err, docs) {
+          x = docs[0]
+          leftKeys = Object.values(x)
+          var modLeftKeys = modifyArray(leftKeys)
+          db.find({ "Champion": strRight}, function (err, docs) {
+            y = docs[0]
+            rightKeys = Object.values(y)
+            var modRightKeys = modifyArray(rightKeys)
+            var diff = modLeftKeys.map(function(item, index) {
+              return item - modRightKeys[index];
+            })
+            var rounded = diff.map(x => round(x, 2))
+            WriteDifference(rounded)
+          })
+        })
+      }
+    }
+
+    function WriteDifference(data) {
+      var myData = data
+      var myDiv = document.getElementById("midDiv")
+      while (myDiv.firstChild) {
+        myDiv.removeChild(myDiv.firstChild);
+      }
+      for (var i = 1; i < 19; i++) {
+        var para = document.createElement('p')
+        para.innerHTML = `${myData[i]}`
+        if (myData[i] > 0) {
+          para.setAttribute('class', 'mb-1 text-center text-success')
+        } else if (myData[i] < 0) {
+          para.setAttribute('class', 'mb-1 text-center text-danger')
+        } else {
+          para.setAttribute('class', 'mb-1 text-center')
+        }
+        myDiv.appendChild(para)
+      }
+    }
+
+    // Detect for changes in either select function
+    $(document).ready(function(){
+      $('#select1').change(function(){
+         // Take the champion from the select element
+         imgV = this.value
+         // Change source file for img to appropriate portrait
+         $("#left").attr("src",`./Champion Portraits/${imgV}_OriginalLoading.jpg`);
+         // Find the champion in the database
+         db.find({ "Champion": imgV}, function (err, docs) {
+           // Write the information into the leftDic
+           WriteChampionInfo(docs[0], 'leftDiv')
+           CalculateDifference()
+         });
+      });
+      $('#select2').change(function(){
+         imgV = this.value
+         $("#right").attr("src",`./Champion Portraits/${imgV}_OriginalLoading.jpg`);
+         db.find({ "Champion": imgV}, function (err, docs) {
+           WriteChampionInfo(docs[0], 'rightDiv')
+           CalculateDifference()
+         });
+      });
+    });
   </script>
 </html>

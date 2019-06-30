@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Project Name</title>
+    <title>LoLBS</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-LS4/wo5Z/8SLpOLHs0IbuPAGOWTx30XSoZJ8o7WKH0UJhRpjXXTpODOjfVnNjeHu" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -15,7 +15,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-sm bg-primary navbar-light">
-      <a class="navbar-brand">ProjectName</a>
+      <a class="navbar-brand">LoLBS</a>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a href="index.html" class="btn btn-secondary" role="button">Home</a>
@@ -28,10 +28,10 @@
         </li>
       </ul>
     </nav>
-    <div id="showData"></div>
-    <p>This is the champion stats page</p>
+    <div class="container mt-2">
+      <div id="showData"></div>
+    </div>
     <script>
-      // You can also require other files to run in this process
       require('./renderer.js')
     </script>
   </body>
@@ -43,14 +43,14 @@
       // Gather all data from database
       db.find({}, function (err, docs) {
         x = docs;
-        // Due to asynchronous returns I have to call function here
+        // Due to asynchronous returns I have to call functions here
         CreateTableFromJSON(x);
         window.onload = sortTable(0, "alpha");
       });
 
     function CreateTableFromJSON(data) {
         var myData = data
-        // Extract value for html header
+        // Extract value for HTML header
         var col = [];
         for (var i = 0; i < myData.length; i++) {
             for (var key in myData[i]) {
@@ -66,26 +66,30 @@
       var table = document.createElement("table");
       table.setAttribute("id", "statsTable");
       table.setAttribute("class", "table table-striped table-sm")
-      // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+      // Create HTML table header row using the extraced headers above
 
-      var tr = table.insertRow(-1);                   // TABLE ROW.
+      var tr = table.insertRow(-1);                   // Table row
 
+      // Tooltip data used when hovering over the headers
       var toolTipData = ["Champion Name", "Health Points", "Health Points gained per level",
       "Health Regeneration", "Health Regeneration gained per level",
       "Mana Points", "Mana Points gained per level",
       "Mana Regeneration", "Mana Regeneration gained per level",
       "Attack Damage", "Attack Damage gained per level", "Attack Speed",
       "Attack Speed gained per level", "Armour", "Armour gained per level",
-      "Magic Resist", "Magic Resist gained per level", "Movement Speed", "Range"];
+      "Magic Resist", "Magic Resist gained per level", "Movement Speed", "Auto Attack Range"];
 
+      // Loop through col.length i.e all the keys
       for (var i = 0; i < col.length; i++) {
-          var th = document.createElement("th");      // TABLE HEADER.
+          var th = document.createElement("th");      // Table header
           th.innerHTML = col[i];
           tr.appendChild(th);
+          // Set setAttributes for the th element
           th.setAttribute("class", "sticky-top bg-primary border-0 align-middle text-center pointer");
           th.setAttribute("data-toggle", "tooltip");
           th.setAttribute("data-placement", "bottom");
 
+          // Only set
           th.setAttribute("title", toolTipData[i]);
           if (i == 0) {
             th.setAttribute("onclick", `sortTable(${i}, "alpha")`);
@@ -108,23 +112,20 @@
 
       }
 
-      // ADD JSON DATA TO THE TABLE AS ROWS.
+      // Add JSON data to the table as rows
       for (var i = 0; i < myData.length; i++) {
-
         tr = table.insertRow(-1);
-
         for (var j = 0; j < col.length; j++) {
           var tabCell = tr.insertCell(-1);
           tabCell.innerHTML = myData[i][col[j]];
         }
       }
-
-      // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+      // Add newly created table with JSON data to container
       var divContainer = document.getElementById("showData");
       divContainer.innerHTML = "";
       divContainer.appendChild(table);
   }
-  
+
   function sortTable(n, type) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("statsTable");
@@ -139,13 +140,10 @@
     }
     document.getElementById(`up${n}`).className = "oi oi-caret-top d-block invisible";
     document.getElementById(`down${n}`).className = "oi oi-caret-bottom d-block visible";
-    if (dir == "desc") {
-
-    }
     /* Make a loop that will continue until
     no switching has been done: */
     while (switching) {
-      // Start by saying: no switching is done:
+      // Start by saying: no switching is done
       switching = false;
       rows = table.rows;
       /* Loop through all table rows (except the
@@ -157,12 +155,13 @@
         one from current row and one from the next: */
         x = rows[i].getElementsByTagName("TD")[n];
         y = rows[i + 1].getElementsByTagName("TD")[n];
-        /* Check if the two rows should switch place,
-        based on the direction, asc or desc: */
+        // Check if the type of sorting it alphabetical or numeric
         if (type == "alpha") {
+          /* Check if the two rows should switch place,
+          based on the direction, asc or desc: */
           if (dir == "asc") {
             if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
+              // If so, mark as a switch and break the loop
               shouldSwitch = true;
               break;
             }
@@ -172,10 +171,8 @@
               break;
             }
           }
-        }
-
-        if (type == "num") {
-          //Stripe elements before sorting
+        } else if (type == "num") {
+          // Stripe elements before sorting
           xNum = x.innerHTML.replace(/[^\d.-]/g, "");
           yNum = y.innerHTML.replace(/[^\d.-]/g, "");
           if (dir == "asc") {
@@ -209,6 +206,5 @@
       }
     }
   }
-
   </script>
 </html>
